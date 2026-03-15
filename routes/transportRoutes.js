@@ -81,7 +81,12 @@ const {
   getBusLocation,
   trackMyBus,
   adminTrackBus,
-  getBusETA
+  getBusETA,
+  getTransportDashboard,
+  getBusStudents,
+  sendTransportReminder,
+  addBus,
+  assignBusStudent
 } = require("../controllers/transportController")
 
 // Get all buses
@@ -119,4 +124,34 @@ router.get(
   getBusETA
 )
 
+
+
+// Transport dashboard
+router.get("/dashboard", getTransportDashboard)
+
+// Bus students list
+router.get("/bus/:bus_id/students", getBusStudents)
+
+router.post(
+ "/reminder",
+ verifyToken,
+ allowRoles("admin"),
+ sendTransportReminder
+)
+
+
+router.post(
+"/bus",
+verifyToken,
+allowRoles("admin"),
+addBus
+)
+
+
+router.post(
+"/bus-student",
+verifyToken,
+allowRoles("admin"),
+assignBusStudent
+)
 module.exports = router

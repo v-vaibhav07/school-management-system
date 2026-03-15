@@ -119,6 +119,13 @@ exports.createAnnouncement = async (req, res) => {
 
   const { class_id = null, message } = req.body
 
+  // 🔴 MESSAGE VALIDATION
+  if (!message || message.trim() === "") {
+    return res.status(400).json({
+      error: "Announcement message required"
+    })
+  }
+
   const { data, error } = await supabase
     .from("class_announcements")
     .insert([
@@ -133,6 +140,43 @@ exports.createAnnouncement = async (req, res) => {
 
   res.json({ message: "Announcement sent successfully" })
 }
+
+
+// exports.createAnnouncement = async (req, res) => {
+
+//   const { class_id = null, message } = req.body
+
+//   // MESSAGE VALIDATION
+//   if (!message || message.trim() === "") {
+//     return res.status(400).json({
+//       error: "Announcement message required"
+//     })
+//   }
+
+//   // CLASS VALIDATION (for class announcements)
+//   if (req.body.class_id !== undefined && !class_id) {
+//     return res.status(400).json({
+//       error: "Please select a class"
+//     })
+//   }
+
+//   const { data, error } = await supabase
+//     .from("class_announcements")
+//     .insert([
+//       {
+//         class_id,
+//         sender_id: req.user.id,
+//         message
+//       }
+//     ])
+
+//   if (error) return res.status(400).json(error)
+
+//   res.json({ message: "Announcement sent successfully" })
+// }
+
+
+
 
 // Get class announcements
 exports.getAnnouncements = async (req,res)=>{

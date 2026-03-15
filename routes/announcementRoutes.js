@@ -37,7 +37,7 @@ router.patch(
 router.delete(
   "/:id",
   verifyToken,
-  allowRoles("teacher"),
+  allowRoles("teacher","admin"),
   deleteAnnouncement
 )
 

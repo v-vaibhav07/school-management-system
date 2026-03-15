@@ -23,11 +23,25 @@
 
 // module.exports = router
 
+// const express = require("express")
+// const router = express.Router()
+
+// const { getLeaderboard } = require("../controllers/leaderboardController")
+
+// router.get("/", getLeaderboard)
+
+// module.exports = router
+
+
+
 const express = require("express")
 const router = express.Router()
 
-const { getLeaderboard } = require("../controllers/leaderboardController")
+const { getLeaderboard, getStudentMarks } = require("../controllers/leaderboardController")
 
 router.get("/", getLeaderboard)
+
+// NEW ROUTE
+router.get("/marks", getStudentMarks)
 
 module.exports = router

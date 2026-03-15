@@ -104,6 +104,24 @@ import ClassAnnouncementsAdmin from "./pages/ClassAnnouncementsAdmin"
 // 🔥 NEW
 import AdminAnnouncements from "./pages/AdminAnnouncements"
 
+// 🏆 LEADERBOARD
+import LeaderboardClasses from "./pages/LeaderboardClasses"
+import LeaderboardPage from "./pages/LeaderboardPage"
+
+import AdminFeesDashboard from "./pages/AdminFeesDashboard"
+
+import ClassFeesPage from "./pages/ClassFeesPage"
+
+import TransportDashboard from "./pages/TransportDashboard"
+import BusStudentsPage from "./pages/BusStudentsPage"
+
+import AddBus from "./pages/AddBus"
+import AddBusStudent from "./pages/AddBusStudent"
+
+import ClassChats from "./pages/ClassChats"
+
+import ClassChatRoom from "./pages/ClassChatRoom"
+
 function App() {
 
 return (
@@ -270,8 +288,86 @@ element={
 }
 />
 
+{/* ✅ NEW CLASS CHATS PAGE */}
+<Route
+ path="/chats"
+ element={
+  <ProtectedRoute>
+   <ClassChats />
+  </ProtectedRoute>
+ }
+/>
+
+<Route
+ path="/class-chat/:class_id"
+ element={
+  <ProtectedRoute>
+   <ClassChatRoom />
+  </ProtectedRoute>
+ }
+/>
+
+{/* ================= 🏆 LEADERBOARD ================= */}
+
+<Route
+path="/leaderboard"
+element={
+<ProtectedRoute>
+<LeaderboardClasses />
+</ProtectedRoute>
+}
+/>
+
+{/* <Route
+path="/leaderboard/:classId/:examId"
+element={
+<ProtectedRoute>
+<LeaderboardPage />
+</ProtectedRoute>
+}
+/> */}
+
+<Route
+ path="/leaderboard/view/:classId/:examId"
+ element={
+  <ProtectedRoute>
+   <LeaderboardPage />
+  </ProtectedRoute>
+ }
+/>
+
+
+
+{/* ================= FEES ================= */}
+
+<Route
+path="/fees"
+element={
+<ProtectedRoute>
+<AdminFeesDashboard />
+</ProtectedRoute>
+}
+/>
+<Route
+path="/fees/class/:class_id"
+element={
+<ProtectedRoute>
+<ClassFeesPage />
+</ProtectedRoute>
+}
+/>
 
 {/* ================= TRANSPORT ================= */}
+
+<Route
+ path="/transport"
+ element={
+  <ProtectedRoute>
+   <TransportDashboard />
+  </ProtectedRoute>
+ }
+/>
+
 
 <Route
 path="/transport"
@@ -282,6 +378,33 @@ element={
 }
 />
 
+
+<Route
+ path="/transport/bus/:bus_id"
+ element={
+  <ProtectedRoute>
+   <BusStudentsPage/>
+  </ProtectedRoute>
+ }
+/>
+
+<Route
+ path="/transport/add-bus"
+ element={
+  <ProtectedRoute>
+   <AddBus/>
+  </ProtectedRoute>
+ }
+/>
+
+<Route
+ path="/transport/add-student"
+ element={
+  <ProtectedRoute>
+   <AddBusStudent/>
+  </ProtectedRoute>
+ }
+/>
 
 {/* ================= NOTIFICATIONS ================= */}
 

@@ -78,24 +78,30 @@ function TeacherAnnouncements(){
   const [message,setMessage] = useState("")
   const [announcements,setAnnouncements] = useState([])
 
-  const sendAnnouncement = async () => {
+const sendAnnouncement = async () => {
 
-    try{
+  if(!message.trim()){
+    alert("Please write an announcement first")
+    return
+  }
 
-      await API.post("/announcements",{
-        message
-      })
+  try{
 
-      alert("Announcement sent")
-      setMessage("")
+    await API.post("/announcements",{
+      message,
+      target_type:"students"
+    })
 
-      fetchAnnouncements()
+    setMessage("")
+    fetchAnnouncements()
 
-    }catch(err){
-      console.log(err)
-    }
+  }catch(err){
+
+    console.log(err)
 
   }
+
+}
 
   const fetchAnnouncements = async () => {
 
@@ -116,6 +122,33 @@ function TeacherAnnouncements(){
   useEffect(()=>{
     fetchAnnouncements()
   },[])
+
+
+
+  const deleteAnnouncement = async (id) => {
+
+  const confirmDelete = window.confirm("Delete this announcement?")
+
+  if(!confirmDelete) return
+
+  try{
+
+    await API.delete(`/announcements/${id}`)
+
+    alert("Announcement deleted")
+
+    fetchAnnouncements()
+
+  }catch(err){
+
+    console.log(err)
+
+  }
+
+}
+
+
+
 
   return(
 
@@ -139,12 +172,17 @@ function TeacherAnnouncements(){
             onChange={(e)=>setMessage(e.target.value)}
           />
 
-          <button
-            onClick={sendAnnouncement}
-            className="bg-indigo-600 text-white px-5 py-2 rounded hover:bg-indigo-700"
-          >
-            Send Announcement
-          </button>
+<button
+  onClick={sendAnnouncement}
+  disabled={!message.trim()}
+  className={`px-5 py-2 rounded text-white transition 
+  ${message.trim() 
+    ? "bg-indigo-600 hover:bg-indigo-700" 
+    : "bg-gray-400 cursor-not-allowed"}
+  `}
+>
+  Send Announcement
+</button>
 
         </div>
 
@@ -165,22 +203,33 @@ function TeacherAnnouncements(){
 
           <div className="space-y-3">
 
-            {announcements.map((a)=>(
-              <div
-                key={a.id}
-                className="bg-white border rounded-lg p-4 shadow-sm"
-              >
+          {announcements.map((a)=>(
+  <div
+    key={a.id}
+    className="bg-white border rounded-lg p-4 shadow-sm flex justify-between items-start"
+  >
 
-                <p className="text-gray-800">
-                  {a.message}
-                </p>
+    <div>
 
-                <p className="text-xs text-gray-400 mt-2">
-                  {new Date(a.created_at).toLocaleString()}
-                </p>
+      <p className="text-gray-800">
+        {a.message}
+      </p>
 
-              </div>
-            ))}
+      <p className="text-xs text-gray-400 mt-2">
+        {new Date(a.created_at).toLocaleString()}
+      </p>
+
+    </div>
+
+    <button
+      onClick={()=>deleteAnnouncement(a.id)}
+      className="text-red-600 border border-red-200 px-3 py-1 rounded-full text-xs hover:bg-red-50 transition"
+    >
+      Delete
+    </button>
+
+  </div>
+))}
 
           </div>
 

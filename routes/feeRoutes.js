@@ -126,7 +126,11 @@ const {
   payFee,
   getStudentFeeDashboard,
   getAdminFinanceDashboard,
-  getMonthlyRevenue
+  getMonthlyRevenue,
+  getRecentPayments,
+  getClassFeeSummary,
+  getClassStudentsFees,
+  sendFeeReminder
 } = require("../controllers/feeController")
 
 // Admin create fee structure
@@ -176,4 +180,33 @@ router.get(
   getMonthlyRevenue
 )
 
+router.get(
+  "/admin/recent-payments",
+  verifyToken,
+  allowRoles("admin"),
+  getRecentPayments
+)
+
+router.get(
+  "/admin/class-summary",
+  verifyToken,
+  allowRoles("admin"),
+  getClassFeeSummary
+)
+
+
+router.get(
+  "/admin/class-students/:class_id",
+  verifyToken,
+  allowRoles("admin"),
+  getClassStudentsFees
+)
+
+
+router.post(
+  "/admin/send-reminder",
+  verifyToken,
+  allowRoles("admin"),
+  sendFeeReminder
+)
 module.exports = router

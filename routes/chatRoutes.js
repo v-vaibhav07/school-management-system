@@ -12,7 +12,10 @@ const {
   sendMessage,
   getClassMessages,
   markMessageRead,
-  getUnreadCount
+  getUnreadCount,
+  getClassCards,
+  getClassStudents,
+  assignMonitor
 } = require("../controllers/chatController")
 
 // Teacher + Monitor send message
@@ -40,6 +43,26 @@ router.get(
   "/unread/:class_id",
   verifyToken,
   getUnreadCount
+)
+
+
+router.get(
+  "/classes",
+  verifyToken,
+  getClassCards
+)
+
+router.get(
+  "/students/:class_id",
+  verifyToken,
+  getClassStudents
+)
+
+router.post(
+  "/assign-monitor",
+  verifyToken,
+  allowRoles("admin","teacher"),
+  assignMonitor
 )
 
 module.exports = router
