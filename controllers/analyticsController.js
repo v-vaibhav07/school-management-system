@@ -4,10 +4,16 @@ exports.getDashboardStats = async (req, res) => {
 
   try {
 
-    // Total students
-    const { count: students } = await supabase
-      .from("students")
-      .select("*", { count: "exact", head: true })
+    // // Total students
+    // const { count: students } = await supabase
+    //   .from("students")
+    //   .select("*", { count: "exact", head: true })
+
+    // NEW (CORRECT)
+  const { count: students } = await supabase
+  .from("users")
+  .select("*", { count: "exact", head: true })
+  .eq("role", "student")
 
     // Total teachers
     const { count: teachers } = await supabase

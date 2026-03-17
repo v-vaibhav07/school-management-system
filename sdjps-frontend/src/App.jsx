@@ -61,6 +61,8 @@
 // }
 
 // export default App
+
+
 import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom"
 
 import AdminDashboard from "./pages/AdminDashboard"
@@ -85,6 +87,7 @@ import StudentMarks from "./pages/StudentMarks"
 
 import ParentDashboard from "./pages/ParentDashboard"
 import Login from "./pages/Login"
+import Register from "./pages/Register"
 
 import TeacherLayout from "./layouts/TeacherLayout"
 
@@ -135,6 +138,7 @@ return (
 <Route path="/" element={<Navigate to="/login" />} />
 
 <Route path="/login" element={<Login />} />
+<Route path="/register" element={<Register />} />
 
 
 {/* ================= ADMIN ================= */}
@@ -142,7 +146,7 @@ return (
 <Route
 path="/admin/dashboard"
 element={
-<ProtectedRoute>
+<ProtectedRoute role="admin">
 <AdminDashboard />
 </ProtectedRoute>
 }
@@ -157,7 +161,7 @@ element={
 }
 />
 
-{/* 🔥 NEW ADMIN ANNOUNCEMENTS */}
+{/* NEW ADMIN ANNOUNCEMENTS */}
 
 <Route
 path="/admin/announcements"
@@ -435,9 +439,9 @@ element={
 <Route
 path="/teacher"
 element={
-<ProtectedRoute>
+<ProtectedRoute role="teacher">
 <TeacherLayout />
-</ProtectedRoute>
+</ProtectedRoute>   
 }
 >
 

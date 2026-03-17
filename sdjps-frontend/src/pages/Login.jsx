@@ -28,28 +28,43 @@ function Login() {
       localStorage.setItem("role", user.role)
 
       // role based redirect
+      // if (user.role === "admin") {
+
+      //   navigate("/dashboard")
+
+      // }
+
+      // else if (user.role === "teacher") {
+
+      //   navigate("/teachers")
+
+      // }
+
+      // else if (user.role === "student") {
+
+      //   navigate("/student/dashboard")
+
+      // }
+
+      // else if (user.role === "parent") {
+
+      //   navigate("/parent/dashboard")
+
+      // }
+
+
+      // role based redirect
       if (user.role === "admin") {
-
-        navigate("/dashboard")
-
+        navigate("/admin/dashboard")
       }
-
       else if (user.role === "teacher") {
-
-        navigate("/teachers")
-
+        navigate("/teacher/dashboard")   
       }
-
       else if (user.role === "student") {
-
         navigate("/student/dashboard")
-
       }
-
       else if (user.role === "parent") {
-
         navigate("/parent/dashboard")
-
       }
 
     } catch (error) {
@@ -76,7 +91,7 @@ function Login() {
           className="border p-2 w-full mb-4"
           placeholder="Email"
           value={email}
-          onChange={(e)=>setEmail(e.target.value)}
+          onChange={(e) => setEmail(e.target.value)}
         />
 
         <input
@@ -84,7 +99,7 @@ function Login() {
           className="border p-2 w-full mb-4"
           placeholder="Password"
           value={password}
-          onChange={(e)=>setPassword(e.target.value)}
+          onChange={(e) => setPassword(e.target.value)}
         />
 
         <button
@@ -93,6 +108,17 @@ function Login() {
         >
           Login
         </button>
+
+        {/* // added this */}
+        <p className="text-sm text-center mt-3">
+          Don't have an account?{" "}
+          <span
+            className="text-blue-500 cursor-pointer"
+            onClick={() => navigate("/register")}
+          >
+            Register
+          </span>
+        </p>
 
       </div>
 

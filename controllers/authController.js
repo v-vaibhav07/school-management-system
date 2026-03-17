@@ -6,6 +6,18 @@ const jwt = require("jsonwebtoken")
 exports.register = async (req, res) => {
   const { full_name, email, password, role, phone } = req.body
 
+
+    // this block is added
+  const { data: existingUser } = await supabase
+    .from("users")
+    .select("*")
+    .eq("email", email)
+    .single()
+
+  if (existingUser) {
+    return res.status(400).json({ message: "Email already registered" })
+  }
+
   const hashedPassword = await bcrypt.hash(password, 10)
 
   const { data, error } = await supabase
