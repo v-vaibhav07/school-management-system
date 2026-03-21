@@ -117,7 +117,8 @@ const supabase = require("../config/supabase")
 
 exports.createAnnouncement = async (req, res) => {
 
-  const { class_id = null, message } = req.body
+  // const { class_id = null, message } = req.body
+  const { class_id = null, message, target_type } = req.body
 
   // 🔴 MESSAGE VALIDATION
   if (!message || message.trim() === "") {
@@ -128,13 +129,22 @@ exports.createAnnouncement = async (req, res) => {
 
   const { data, error } = await supabase
     .from("class_announcements")
+    // .insert([
+    //   {
+    //     class_id,
+    //     sender_id: req.user.id,
+    //     message
+    //   }
+    // ])/
+
     .insert([
-      {
-        class_id,
-        sender_id: req.user.id,
-        message
-      }
-    ])
+  {
+    class_id,
+    sender_id: req.user.id,
+    message,
+    target_type: "teacher" || "teacher"
+  }
+])
 
   if (error) return res.status(400).json(error)
 
@@ -183,16 +193,18 @@ exports.getAnnouncements = async (req,res)=>{
 
   const { class_id } = req.query
 
-  let query = supabase
-  .from("class_announcements")
-  .select(`
-    id,
-    message,
-    is_pinned,
-    created_at,
-    users(full_name)
-  `)
-  .order("created_at",{ascending:false})
+let query = supabase
+.from("class_announcements")
+.select(`
+  id,
+  message,
+  target_type,
+  is_pinned,
+  created_at,
+  users(full_name)
+`)
+.eq("target_type", "teacher")
+.order("created_at",{ascending:false})
 
   if(class_id){
     query = query.eq("class_id",class_id)

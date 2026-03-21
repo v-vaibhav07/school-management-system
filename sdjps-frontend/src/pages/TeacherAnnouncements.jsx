@@ -89,7 +89,7 @@ const sendAnnouncement = async () => {
 
     await API.post("/announcements",{
       message,
-      target_type:"students"
+      target: "teacher"
     })
 
     setMessage("")

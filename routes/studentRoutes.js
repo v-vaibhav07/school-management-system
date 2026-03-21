@@ -116,27 +116,86 @@ router.get("/:id", async (req, res) => {
 
 
 
-// ADD STUDENT
+// // ADD STUDENT
+// router.post("/", async (req, res) => {
+
+//   const { full_name, email, password_hash } = req.body
+
+//   const { data, error } = await supabase
+//     .from("users")
+//     .insert([
+//       {
+//         full_name,
+//         email,
+//         password_hash,
+//         role: "student"
+//       }
+//     ])
+//     .select()
+
+//   if (error) return res.status(400).json(error)
+
+//   res.json(data)
+// })
 router.post("/", async (req, res) => {
 
-  const { full_name, email, password_hash } = req.body
+  const { full_name, email, password_hash, class_id, roll_number } = req.body
 
-  const { data, error } = await supabase
-    .from("users")
-    .insert([
-      {
-        full_name,
-        email,
-        password_hash,
-        role: "student"
-      }
-    ])
-    .select()
+  try {
 
-  if (error) return res.status(400).json(error)
+    // 1️⃣ Create user
+    const { data: userData, error: userError } = await supabase
+      .from("users")
+      .insert([
+        {
+          full_name,
+          email,
+          password_hash,
+          role: "student"
+        }
+      ])
+      .select()
+      .single()
 
-  res.json(data)
+    if (userError) {
+      console.log(userError)
+      return res.status(400).json(userError)
+    }
+
+    // 2️⃣ Create student (🔥 FIX HERE)
+    const { data: studentData, error: studentError } = await supabase
+      .from("students")
+      .insert([
+        {
+          user_id: userData.id,
+          class_id,
+          roll_number,
+          name: full_name   // ✅ THIS WAS MISSING
+        }
+      ])
+      .select()
+
+    if (studentError) {
+      console.log(studentError)
+      return res.status(400).json(studentError)
+    }
+
+    res.json({
+      message: "Student created successfully",
+      user: userData,
+      student: studentData
+    })
+
+  } catch (err) {
+
+    console.log(err)
+    res.status(500).json({ error: "Server error" })
+
+  }
+
 })
+
+
 
 
 //delete

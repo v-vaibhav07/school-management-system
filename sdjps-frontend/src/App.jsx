@@ -125,6 +125,25 @@ import ClassChats from "./pages/ClassChats"
 
 import ClassChatRoom from "./pages/ClassChatRoom"
 
+import TeacherClassStudents from "./pages/TeacherClassStudents"
+import TeacherTodayAttendance from "./pages/TeacherTodayAttendance"
+import TeacherMonthlyFull from "./pages/TeacherMonthlyFull"
+import TeacherMyClasses from "./pages/TeacherMyClasses"
+import TeacherAddHomework from "./pages/TeacherAddHomework"
+import TeacherStudents from "./pages/TeacherStudents"
+import TeacherMessages from "./pages/TeacherMessages"
+import TeacherWithAllClassRoomChat from "./pages/TeacherWithAllClassRoomChat"
+import TeacherViewAnnouncements from "./pages/TeacherViewAnnouncements"
+import TeacherMarksDashboard from "./pages/TeacherMarksDashboard"
+import TeacherMarksEntry from "./pages/TeacherMarksEntry"
+import AdminCreateExam from "./pages/AdminCreateExam"
+import AdminTeacherSalary from "./pages/AdminTeacherSalary"
+import TeacherSalary from "./pages/TeacherSalary"
+import AdminSalaryHistory from "./pages/AdminSalaryHistory"
+import TeacherLeaderboardClasses from "./pages/TeacherLeaderboardClasses"
+import TeacherLeaderboardPage from "./pages/TeacherLeaderboardPage"
+
+
 function App() {
 
 return (
@@ -211,7 +230,24 @@ element={
 }
 />
 
+<Route path="/admin/create-exam" element={<AdminCreateExam />} />
 
+<Route
+  path="/admin/teacher-salary"
+  element={
+    <ProtectedRoute>
+      <AdminTeacherSalary />
+    </ProtectedRoute>
+  }
+/>
+<Route
+  path="/admin/salary-history/:teacherId"
+  element={
+    <ProtectedRoute>
+      <AdminSalaryHistory />
+    </ProtectedRoute>
+  }
+/>
 {/* ================= STUDENTS ================= */}
 
 <Route
@@ -331,16 +367,16 @@ element={
 }
 /> */}
 
-<Route
+{/* <Route
  path="/leaderboard/view/:classId/:examId"
  element={
   <ProtectedRoute>
    <LeaderboardPage />
   </ProtectedRoute>
  }
-/>
+/> */}
 
-
+<Route path="/leaderboard/:classId" element={<LeaderboardPage />} />
 
 {/* ================= FEES ================= */}
 
@@ -446,6 +482,8 @@ element={
 >
 
 <Route path="dashboard" element={<TeacherDashboard />} />
+{/* <Route path="leaderboard" element={<LeaderboardPage />} /> */}
+<Route path="class/:id" element={<TeacherClassStudents />} /> 
 
 <Route path="class/:id/attendance" element={<TeacherAttendance />} />
 
@@ -454,6 +492,39 @@ element={
 <Route path="class/:id/homework" element={<TeacherHomework />} />
 
 <Route path="class/:id/chat" element={<ClassChat />} />
+
+<Route
+  path="attendance/today/:classId"
+  element={<TeacherTodayAttendance />}
+/>
+
+<Route
+  path="attendance/monthly/:classId"
+  element={<TeacherMonthlyFull />}
+/>
+
+{/* <Route path="/teacher/classes" element={<TeacherMyClasses />} /> */}
+<Route path="classes" element={<TeacherMyClasses />} />
+
+<Route path="homework" element={<TeacherHomework />} />
+<Route path="homework/:classId" element={<TeacherAddHomework />} />
+<Route path="students" element={<TeacherStudents />} />
+<Route path="messages" element={<TeacherMessages />} />
+<Route path="chat/:class_id" element={<TeacherWithAllClassRoomChat />} />
+<Route path="/teacher/announcements" element={<TeacherViewAnnouncements />} />
+<Route 
+  path="/teacher/marks-dashboard" 
+  element={<TeacherMarksDashboard />} 
+/>
+<Route 
+  path="/teacher/marks-entry" 
+  element={<TeacherMarksEntry />} 
+/>
+
+<Route path="salary" element={<TeacherSalary />} />
+<Route path="leaderboard" element={<TeacherLeaderboardClasses />} />
+<Route path="leaderboard/:classId" element={<TeacherLeaderboardPage />} />
+
 
 </Route>
 
